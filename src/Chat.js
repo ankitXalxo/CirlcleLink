@@ -1,128 +1,10 @@
-// import React, { useEffect, useState } from "react";
-// import "./App.js";
-// import { Avatar, IconButton } from "@mui/material";
-// import MoreVert from "@mui/icons-material/MoreVert";
-// import AttachFile from "@mui/icons-material/AttachFile";
-// import SearchOutlined from "@mui/icons-material/SearchOutlined";
-// import { useParams } from "react-router-dom";
-// import { useStateValue } from "./StateProvider";
-// import db from "./firebase";
-// import firebase from "firebase/compat/app";
-// // import MicIcon from "@mui/icons-material/MicIcon";
-// // import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticonIcon";
-
-// import "./Chat.css";
-
-// function Chat() {
-//   const [input, setInput] = useState("");
-//   const [seed, setSeed] = useState("");
-//   const { roomId } = useParams();
-//   const [roomName, setRoomName] = useState("");
-//   const [messages, setMessages] = useState([]);
-//   const [{ user }] = useStateValue();
-
-//   useEffect(() => {
-//     if (roomId) {
-//       db.collection("rooms")
-//         .doc(roomId)
-//         .onSnapshot((snapshot) => setRoomName(snapshot.data().name));
-
-//       db.collection("rooms")
-//         .doc(roomId)
-//         .collection("messages")
-//         .orderBy("timestamp", "asc")
-//         .onSnapshot((snapshot) =>
-//           setMessages(snapshot.docs.map((doc) => doc.data()))
-//         );
-//     }
-//   }, [roomId]);
-
-//   useEffect(() => {
-//     setSeed(Math.floor(Math.random() * 5000));
-//   }, [roomId]);
-
-//   const sendMessage = (e) => {
-//     e.preventDefault();
-//     console.log("You typed >>> ", input);
-
-//     db.collection("rooms").doc(roomId).collection("messages").add({
-//       message: input,
-//       name: user.displayName,
-//       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-//     });
-
-//     setInput("");
-//   };
-
-//   return (
-//     <div className="chat">
-//       <div className="chat__header">
-//         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-//         <div className="chat__headerInfo">
-//           <h3>{roomName}</h3>
-//           <p>
-//             last seen {""}
-//             {new Date(
-//               messages[messages.length - 1]?.timestamp?.toDate()
-//             ).toUTCString()}
-//           </p>
-//         </div>
-
-//         <div className="chat__headerRight">
-//           <IconButton>
-//             <SearchOutlined />
-//           </IconButton>
-//           <IconButton>
-//             <AttachFile />
-//           </IconButton>
-//           <IconButton>
-//             <MoreVert />
-//           </IconButton>
-//         </div>
-//       </div>
-
-//       <div className="chat__body">
-//         {messages.map((message) => (
-//           <p
-//             className={`chat__message ${
-//               message.name === user.displayName && "chat__reciever"
-//             }`}
-//           >
-//             <span className="chat__name">{message.name}</span>
-//             {message.message}
-//             <span className="chat__timestamp">
-//               {new Date(message.timestamp?.toDate()).toUTCString()}
-//             </span>
-//           </p>
-//         ))}
-//       </div>
-
-//       <div className="chat__footer">
-//         <form>
-//           <input
-//             value={input}
-//             onChange={(e) => setInput(e.target.value)}
-//             type="text"
-//             placeholder="Type a message"
-//           />
-//           <button onClick={sendMessage} type="submit">
-//             Send a message
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Chat;
-
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 import db from "./firebase";
 import firebase from "firebase/compat/app";
 
-function Chat() {
+function Chat({ onLogout }) {
   const { roomId } = useParams();
   const [{ user }] = useStateValue();
   const [roomName, setRoomName] = useState("");
@@ -187,7 +69,9 @@ function Chat() {
         <div className="ds-chat-actions">
           <i className="fas fa-user-friends"></i>
           <i className="fas fa-search"></i>
-          <i className="fas fa-ellipsis-v"></i>
+          <button className="logout-btn" onClick={onLogout} title="Logout">
+            <i className="fas fa-sign-out-alt"></i>
+          </button>
         </div>
       </div>
 

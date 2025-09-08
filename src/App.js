@@ -8,7 +8,17 @@ import ThemeToggle from "./ThemeToggle";
 import "./deepseek.css";
 
 function App() {
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
+
+  const handleLogout = () => {
+    // Clear user from state
+    dispatch({
+      type: "SET_USER",
+      user: null,
+    });
+    // You might also want to sign out from Firebase auth if you're using it
+    // auth.signOut();
+  };
 
   return (
     <div className="app">
@@ -20,7 +30,10 @@ function App() {
             <ThemeToggle />
             <Sidebar />
             <Routes>
-              <Route path="/rooms/:roomId" element={<Chat />} />
+              <Route
+                path="/rooms/:roomId"
+                element={<Chat onLogout={handleLogout} />}
+              />
               <Route
                 path="/"
                 element={
@@ -33,6 +46,15 @@ function App() {
                         <div className="ds-chat-status">
                           Select a room to start chatting
                         </div>
+                      </div>
+                      <div className="ds-chat-actions">
+                        <button
+                          className="logout-btn"
+                          onClick={handleLogout}
+                          title="Logout"
+                        >
+                          <i className="fas fa-sign-out-alt"></i>
+                        </button>
                       </div>
                     </div>
                   </div>

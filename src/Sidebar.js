@@ -6,7 +6,7 @@ import db from "./firebase";
 function Sidebar() {
   const [rooms, setRooms] = useState([]);
   const [query, setQuery] = useState("");
-  const [{ user }] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     const unsubscribe = db
@@ -23,12 +23,37 @@ function Sidebar() {
     return rooms.filter((r) => r.data?.name?.toLowerCase().includes(q));
   }, [rooms, query]);
 
+  const handleLogout = () => {
+    dispatch({
+      type: "SET_USER",
+      user: null,
+    });
+  };
+
   return (
     <div className="ds-sidebar">
       <div className="ds-sidebar-header">
         <h1>
           <i className="fas fa-comments"></i> Chat Rooms
         </h1>
+      </div>
+
+      {/* User Info Section */}
+      <div className="ds-user-info">
+        <div className="ds-user-avatar">
+          {user?.photoURL ? (
+            <img src={user.photoURL} alt={user.displayName} />
+          ) : (
+            <i className="fas fa-user"></i>
+          )}
+        </div>
+        <div className="ds-user-details">
+          <div className="ds-user-name">{user?.displayName || "User"}</div>
+          <div className="ds-user-status">Online</div>
+        </div>
+        <button className="ds-logout-btn" onClick={handleLogout} title="Logout">
+          <i className="fas fa-sign-out-alt"></i>
+        </button>
       </div>
 
       <div className="ds-search-container">
