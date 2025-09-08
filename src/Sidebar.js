@@ -18,10 +18,10 @@ function Sidebar() {
     return () => unsubscribe();
   }, []);
 
-  const filtered = useMemo(() => {
+  const filteredRooms = useMemo(() => {
     if (!query.trim()) return rooms;
     const q = query.toLowerCase();
-    return rooms.filter((r) => r.data?.name?.toLowerCase().includes(q));
+    return rooms.filter((room) => room.data?.name?.toLowerCase().includes(q));
   }, [rooms, query]);
 
   const handleLogout = () => {
@@ -38,6 +38,10 @@ function Sidebar() {
 
   const closeProfileModal = () => {
     setShowProfileModal(false);
+  };
+
+  const clearSearch = () => {
+    setQuery("");
   };
 
   return (
@@ -61,6 +65,57 @@ function Sidebar() {
             )}
           </div>
         </div>
+      </div>
+
+      {/* Search Container */}
+      <div className="ds-search-container">
+        <div className="ds-search-box">
+          <i className="fas fa-search"></i>
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            type="text"
+            placeholder="Search rooms..."
+            className="ds-search-input"
+          />
+          {query && (
+            <button className="ds-search-clear" onClick={clearSearch}>
+              <i className="fas fa-times"></i>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Search Results Info */}
+      {query && (
+        <div className="ds-search-results-info">
+          <span>
+            {filteredRooms.length} room{filteredRooms.length !== 1 ? "s" : ""}{" "}
+            found
+            {query && ` for "${query}"`}
+          </span>
+          <button className="ds-clear-search" onClick={clearSearch}>
+            Clear search
+          </button>
+        </div>
+      )}
+
+      {/* No Results Message */}
+      {query && filteredRooms.length === 0 && (
+        <div className="ds-no-results">
+          <i className="fas fa-search"></i>
+          <p>No rooms found for "{query}"</p>
+          <button onClick={clearSearch} className="ds-try-again">
+            Clear search
+          </button>
+        </div>
+      )}
+
+      <div className="ds-rooms-list">
+        <SidebarChat addNewChat />
+        {filteredRooms.map((room) => (
+          <SidebarChat key={room.id} id={room.id} name={room.data.name} />
+        ))}
       </div>
 
       {/* Profile Modal Overlay */}
@@ -98,25 +153,6 @@ function Sidebar() {
           </div>
         </div>
       )}
-
-      <div className="ds-search-container">
-        <div className="ds-search-box">
-          <i className="fas fa-search"></i>
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            type="text"
-            placeholder="Search rooms..."
-          />
-        </div>
-      </div>
-
-      <div className="ds-rooms-list">
-        <SidebarChat addNewChat />
-        {filtered.map((room) => (
-          <SidebarChat key={room.id} id={room.id} name={room.data.name} />
-        ))}
-      </div>
     </div>
   );
 }
