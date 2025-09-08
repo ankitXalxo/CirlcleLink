@@ -1,0 +1,459 @@
+/* Deepseek UI styles for WhatsApp React + Firebase clone */
+/* Theme variables */
+:root {
+  --bg: #0b141a;
+  --bg-elev: #111b21;
+  --panel: #202c33;
+  --panel-2: #2a3942;
+  --text: #e9edef;
+  --text-dim: #c5ced3;
+  --muted: #8696a0;
+  --accent: #25d366;
+  --accent-2: #5be19a;
+  --danger: #f43f5e;
+  --shadow: 0 6px 24px rgba(0, 0, 0, .25);
+  --radius: 14px;
+}
+
+.light-theme {
+  --bg: #eef3f7;
+  --bg-elev: #ffffff;
+  --panel: #e8eef3;
+  --panel-2: #f3f6f9;
+  --text: #0b141a;
+  --text-dim: #1d2a32;
+  --muted: #5b6b75;
+  --accent: #1faa59;
+  --accent-2: #19c37d;
+  --danger: #e11d48;
+  --shadow: 0 8px 24px rgba(13, 32, 46, .08);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+}
+
+/* App container (sidebar + chat) */
+.ds-container {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 0;
+  background:
+    radial-gradient(1200px 600px at 100% -20%, rgba(37, 211, 102, .06), transparent 70%),
+    radial-gradient(900px 400px at -10% 120%, rgba(32, 44, 51, .25), transparent 70%);
+}
+
+@media (max-width: 960px) {
+  .ds-container {
+    grid-template-columns: 100%;
+  }
+}
+
+/* Theme toggle button styles */
+.ds-theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 84px;
+  z-index: 1000;
+  width: 56px;
+  height: 32px;
+  background: var(--panel);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  padding: 0 6px;
+  transition: background .2s ease;
+  border: none;
+}
+
+.ds-toggle-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: white;
+  transform: translateX(0);
+  transition: transform .25s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.ds-theme-toggle .dark { 
+  transform: translateX(22px); 
+}
+
+.ds-toggle-icon {
+  position: absolute;
+  font-size: 12px;
+  color: var(--muted);
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.ds-toggle-sun { 
+  left: 10px; 
+}
+
+.ds-toggle-moon { 
+  right: 10px; 
+}
+
+/* Light theme adjustments */
+.light-theme .ds-theme-toggle {
+  background: var(--panel);
+}
+
+.light-theme .ds-toggle-thumb { 
+  background: var(--accent);
+}
+
+/* SIDEBAR */
+.ds-sidebar {
+  background: var(--bg-elev);
+  border-right: 1px solid color-mix(in oklab, var(--panel), transparent 50%);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.ds-sidebar-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid color-mix(in oklab, var(--panel), transparent 40%);
+}
+.ds-sidebar-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+
+.ds-search-container {
+  padding: 12px 16px;
+  border-bottom: 1px solid color-mix(in oklab, var(--panel), transparent 40%);
+}
+.ds-search-box {
+  background: var(--panel-2);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+}
+.ds-search-box i { color: var(--muted); }
+.ds-search-box input {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--text);
+  font-size: 14px;
+}
+
+/* Rooms */
+.ds-rooms-list {
+  overflow: auto;
+  padding: 8px 8px 16px;
+  scrollbar-gutter: stable;
+}
+.ds-room-item {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  margin: 6px 4px;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  transition: background .15s ease, transform .1s ease;
+}
+.ds-room-item:hover { background: color-mix(in oklab, var(--panel-2), transparent 40%); }
+.ds-room-item.active { background: color-mix(in oklab, var(--panel-2), transparent 20%); }
+
+.ds-room-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklab, var(--panel-2), transparent 10%);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent), transparent 70%);
+}
+
+.ds-room-info { min-width: 0; }
+.ds-room-name {
+  font-weight: 600;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ds-room-desc {
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Create chat popup */
+.chat-popup-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,.3);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+.chat-popup {
+  width: min(520px, 92vw);
+  background: var(--bg-elev);
+  border: 1px solid color-mix(in oklab, var(--panel), transparent 40%);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.popup-header { padding: 18px 20px 0; }
+.popup-header h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+.popup-header p {
+  margin: 0 0 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.popup-content { padding: 12px 20px 4px; }
+.input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.input-group label { font-size: 12px; color: var(--muted); }
+.room-input {
+  background: var(--panel-2);
+  border: 1px solid color-mix(in oklab, var(--panel), transparent 35%);
+  border-radius: 12px;
+  padding: 12px 40px 12px 12px;
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+}
+.room-input:focus {
+  border-color: color-mix(in oklab, var(--accent), transparent 40%);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 85%);
+}
+.input-icon {
+  position: absolute;
+  right: 14px;
+  top: 38px;
+  color: var(--muted);
+}
+.character-count {
+  position: absolute;
+  right: 12px;
+  bottom: -18px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px 20px;
+}
+.btn {
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-cancel { background: var(--panel-2); color: var(--text); }
+.btn-create { background: var(--accent); color: #fff; }
+.btn-create:hover { filter: brightness(1.05); }
+
+/* CHAT AREA - FIXED MESSAGE BOX POSITION */
+.ds-chat-area {
+  background: radial-gradient(1200px 600px at 100% -20%, rgba(37, 211, 102, .06), transparent 70%);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid color-mix(in oklab, var(--panel), transparent 40%);
+  background: var(--bg-elev);
+  flex-shrink: 0;
+}
+.ds-chat-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+.ds-chat-status {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ds-chat-actions { display: flex; align-items: center; gap: 10px; }
+
+.ds-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  background-size: 20px 20px;
+  position: relative;
+}
+
+.ds-message {
+  max-width: min(68%, 560px);
+  margin: 10px 0;
+  display: grid;
+  gap: 6px;
+}
+.ds-message .ds-message-bubble {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--panel-2);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  word-wrap: break-word;
+}
+.ds-message .ds-message-time {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.ds-message.self { 
+  align-self: flex-end; 
+  text-align: right; 
+}
+.ds-message.self .ds-message-bubble {
+  background: color-mix(in oklab, var(--accent), transparent 85%);
+  outline: 1px solid color-mix(in oklab, var(--accent), transparent 70%);
+}
+.ds-message.other { align-self: flex-start; }
+
+/* Chat input - FIXED POSITION */
+.ds-chat-input {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--bg-elev);
+  border-top: 1px solid color-mix(in oklab, var(--panel), transparent 40%);
+  flex-shrink: 0;
+}
+.ds-input-actions { display: flex; align-items: center; gap: 10px; }
+
+.ds-message-input {
+  flex: 1;
+  background: var(--panel-2);
+  border: 1px solid color-mix(in oklab, var(--panel), transparent 35%);
+  border-radius: 999px;
+  padding: 12px 16px;
+  color: var(--text);
+  outline: none;
+  font-size: 14px;
+}
+.ds-message-input:focus {
+  border-color: color-mix(in oklab, var(--accent), transparent 40%);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent), transparent 85%);
+}
+
+.ds-send-button {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform .06s ease;
+  flex-shrink: 0;
+}
+.ds-send-button:active { transform: translateY(1px) scale(.98); }
+
+/* Utility */
+* { box-sizing: border-box; }
+a { color: inherit; }
+
+/* Scrollbar styling */
+.ds-chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+.ds-chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ds-chat-messages::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--muted), transparent 70%);
+  border-radius: 3px;
+}
+.ds-chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Ensure proper mobile responsiveness */
+@media (max-width: 768px) {
+  .ds-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .ds-sidebar {
+    display: none;
+  }
+  
+  .ds-chat-area {
+    width: 100%;
+  }
+  
+  .ds-theme-toggle {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+/* Animation for messages */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ds-message {
+  animation: messageSlideIn 0.3s ease-out;
+}
