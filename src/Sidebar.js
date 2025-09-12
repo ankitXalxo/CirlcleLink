@@ -57,6 +57,7 @@ function Sidebar() {
                 src={user.photoURL}
                 alt={user.displayName}
                 className="ds-profile-avatar"
+                referrerPolicy="no-referrer"
               />
             ) : (
               <div className="ds-profile-avatar">
@@ -131,7 +132,11 @@ function Sidebar() {
 
             <div className="ds-modal-avatar">
               {user?.photoURL ? (
-                <img src={user.photoURL} alt={user.displayName} />
+                <img
+                  src={user.photoURL}
+                  alt={user.displayName}
+                  referrerPolicy="no-referrer"
+                />
               ) : (
                 <div className="ds-modal-avatar-placeholder">
                   <i className="fas fa-user"></i>
