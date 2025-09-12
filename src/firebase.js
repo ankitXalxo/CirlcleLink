@@ -2,13 +2,13 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyC61j9NPbeMu0O7qkVsfH4czOJF2Wetcug",
-  authDomain: "whatsapp-clone-react-fir-66a0b.firebaseapp.com",
-  projectId: "whatsapp-clone-react-fir-66a0b",
-  storageBucket: "whatsapp-clone-react-fir-66a0b.appspot.com",
-  messagingSenderId: "55985504927",
-  appId: "1:55985504927:web:f923cbf8a71c1601e258aa",
-  measurementId: "G-TYW8ME1JJK",
+  apiKey: "AIzaSyBUtE437loyrqcLQB9uPLOtUO96-IwASuw",
+  authDomain: "circlelink-ca24c.firebaseapp.com",
+  projectId: "circlelink-ca24c",
+  storageBucket: "circlelink-ca24c.firebasestorage.app",
+  messagingSenderId: "250520899789",
+  appId: "1:250520899789:web:133f1f8e1cfb914c6b5984",
+  measurementId: "G-SFM08RG9JD",
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
