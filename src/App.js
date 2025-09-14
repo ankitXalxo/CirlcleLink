@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 import Chat from "./Chat";
 import Homepage from "./Homepage";
 import ThemeToggle from "./ThemeToggle";
-import "./deepseek.css";
+import "./style.css";
 
 function App() {
   const [{ user }, dispatch] = useStateValue();

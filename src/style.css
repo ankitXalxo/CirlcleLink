@@ -1,4 +1,3 @@
-/* Deepseek UI styles for WhatsApp React + Firebase clone */
 /* Theme variables */
 :root {
   --bg: #0b141a;
@@ -627,7 +626,7 @@ a { color: inherit; }
   color: var(--danger);
 }
 
-/* Remove the old user info section styles since we're not using it anymore */
+
 .ds-user-info {
   display: none;
 }
